@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cálculo de Carteras Topográficas</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .bg-topografia {
+      background-image: url('imagenes/fondo-topografia.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+    :target::before {
+      content: "";
+      display: block;
+      height: 88px;
+      margin: -88px 0 0;
+    }
+  </style>
+</head>
+<body class="text-gray-100 bg-topografia">
+
+  <!-- NAVBAR -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-blue-800 shadow-md">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-3">
+      <div class="flex items-center gap-3">
+        <img src="imagenes/logo.png" alt="Logo" class="w-12 h-12 rounded-full border-2 border-white">
+        <h1 class="text-lg sm:text-xl font-bold text-white">Cálculo de Carteras Topográficas</h1>
+      </div>
+      <nav>
+        <ul class="flex items-center gap-6 font-medium text-white">
+          <li><a href="index.html" class="hover:text-yellow-300 transition">Inicio</a></li>
+          <li><a href="emprender.html" class="hover:text-yellow-300 transition">Emprender</a></li>
+          <li><a href="nuestros-servicios.html" class="hover:text-yellow-300 transition">Servicios</a></li>
+          <li><a href="entretenimiento.html" class="hover:text-yellow-300 transition">Entretenimiento</a></li>
+          <li><a href="formulario.html" class="hover:text-yellow-300 transition">Formulario</a></li>
+          <li><a href="contactenos.html" class="hover:text-yellow-300 transition">Contacto</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section id="inicio" class="relative pt-28 pb-16">
+    <div class="absolute inset-0 bg-black/60"></div>
+    <div class="relative max-w-5xl mx-auto text-center px-4">
+      <h2 class="text-4xl sm:text-5xl font-extrabold leading-tight text-white">
+        Aprende el <span class="text-yellow-400">Cálculo de Carteras Topográficas</span>
+      </h2>
+      <p class="mt-4 text-lg text-gray-200">
+        Guía completa con conceptos, fórmulas y ejemplos para convertir distancias, áreas y pendientes de las cartas topográficas al terreno real.
+      </p>
+    </div>
+  </section>
+
+  <!-- CONCEPTOS -->
+  <section id="conceptos" class="relative py-16 bg-black/60">
+    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h3 class="text-3xl font-bold mb-6 text-yellow-300">Conceptos básicos</h3>
+      <ul class="list-disc list-inside text-gray-200 space-y-2">
+        <li><strong>Carta topográfica:</strong> representación del relieve y elementos del terreno en una escala determinada.</li>
+        <li><strong>Escala:</strong> relación entre distancia en el mapa y distancia real.</li>
+        <li><strong>Curvas de nivel:</strong> líneas que unen puntos de igual altitud.</li>
+        <li><strong>Pendiente:</strong> grado de inclinación entre dos puntos.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- FÓRMULAS -->
+  <section id="formulas" class="relative py-16">
+    <div class="absolute inset-0 bg-black/60"></div>
+    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h3 class="text-3xl font-bold mb-6 text-yellow-300">Fórmulas esenciales</h3>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-white/10 rounded-xl p-6">
+          <h4 class="font-semibold mb-3">1. Distancia (mapa → terreno)</h4>
+          <p>d<sub>terreno</sub>(m) = d<sub>map</sub>(cm) × S / 100</p>
+        </div>
+        <div class="bg-white/10 rounded-xl p-6">
+          <h4 class="font-semibold mb-3">2. Área (mapa → terreno)</h4>
+          <p>A<sub>terreno</sub>(m²) = A<sub>map</sub>(cm²) × (S/100)²</p>
+        </div>
+        <div class="bg-white/10 rounded-xl p-6">
+          <h4 class="font-semibold mb-3">3. Pendiente</h4>
+          <p>P(%) = (Δh / d) × 100</p>
+        </div>
+        <div class="bg-white/10 rounded-xl p-6">
+          <h4 class="font-semibold mb-3">4. Azimut</h4>
+          <p>Azimut = atan2(ΔX, ΔY) en grados</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CALCULADORAS -->
+  <section id="calculadoras" class="relative py-16 bg-black/60">
+    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h3 class="text-3xl font-bold mb-6 text-yellow-300">Calculadoras prácticas</h3>
+      <div class="grid md:grid-cols-3 gap-6">
+        <!-- Distancia -->
+        <div class="bg-white/10 rounded-xl p-6">
+          <h4 class="font-semibold mb-3">Distancia</h4>
+          <label>Escala S</label>
+          <input id="scale" type="number" class="w-full p-2 text-black rounded" value="25000">
+          <label>Distancia mapa (cm)</label>
+          <input id="dmap" type="number" class="w-full p-2 text-black rounded" value="4">
+          <button onclick="calcDistance()" class="mt-3 px-4 py-2 rounded bg-sky-600 text-white">Calcular</button>
+          <p id="dresult" class="mt-3 text-sm"></p>
+        </div>
+        <!-- Área -->
+        <div class="bg-white/10 rounded-xl p-6">
+          <h4 class="font-semibold mb-3">Área</h4>
+          <label>Escala S</label>
+          <input id="scaleA" type="number" class="w-full p-2 text-black rounded" value="25000">
+          <label>Área mapa (cm²)</label>
+          <input id="amap" type="number" class="w-full p-2 text-black rounded" value="10">
+          <button onclick="calcArea()" class="mt-3 px-4 py-2 rounded bg-sky-600 text-white">Calcular</button>
+          <p id="aresult" class="mt-3 text-sm"></p>
+        </div>
+        <!-- Pendiente -->
+        <div class="bg-white/10 rounded-xl p-6">
+          <h4 class="font-semibold mb-3">Pendiente</h4>
+          <label>Elevación A (m)</label>
+          <input id="h1" type="number" class="w-full p-2 text-black rounded" value="100">
+          <label>Elevación B (m)</label>
+          <input id="h2" type="number" class="w-full p-2 text-black rounded" value="120">
+          <label>Distancia horizontal (m)</label>
+          <input id="dh" type="number" class="w-full p-2 text-black rounded" value="50">
+          <button onclick="calcSlope()" class="mt-3 px-4 py-2 rounded bg-sky-600 text-white">Calcular</button>
+          <p id="sresult" class="mt-3 text-sm"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EJEMPLO -->
+  <section id="ejemplo" class="relative py-16">
+    <div class="absolute inset-0 bg-black/60"></div>
+    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h3 class="text-3xl font-bold mb-6 text-yellow-300">Ejemplo resuelto</h3>
+      <p class="text-gray-200">Escala 1:25.000 y distancia en el mapa 4 cm:</p>
+      <p class="text-yellow-300 mt-2">Distancia real = 4 × 25.000 / 100 = 1.000 m</p>
+      <p class="text-gray-200 mt-2">Área de 10 cm² en el mapa: 10 × (25000/100)² = 625.000 m² (62,5 ha)</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-blue-950/95 border-t border-white/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
+      <p class="text-sm text-gray-200">© <span id="y"></span> Guía Cálculo de Carteras Topográficas</p>
+      <div class="flex items-center gap-4 text-sm">
+        <a href="#conceptos" class="hover:text-yellow-300">Conceptos</a>
+        <a href="#formulas" class="hover:text-yellow-300">Fórmulas</a>
+        <a href="#calculadoras" class="hover:text-yellow-300">Calculadoras</a>
+        <a href="#ejemplo" class="hover:text-yellow-300">Ejemplo</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JS -->
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    function calcDistance() {
+      const S = Number(document.getElementById('scale').value) || 0;
+      const dmap = Number(document.getElementById('dmap').value) || 0;
+      if (S <= 0 || dmap <= 0) {
+        document.getElementById('dresult').innerText = 'Introduce escala y distancia válidas.';
+        return;
+      }
+      const d_m = dmap * S / 100;
+      document.getElementById('dresult').innerText = `Distancia en terreno: ${d_m} m`;
+    }
+
+    function calcArea() {
+      const S = Number(document.getElementById('scaleA').value) || 0;
+      const amap = Number(document.getElementById('amap').value) || 0;
+      if (S <= 0 || amap <= 0) {
+        document.getElementById('aresult').innerText = 'Introduce escala y área válidas.';
+        return;
+      }
+      const factor = (S / 100);
+      const area_m2 = amap * factor * factor;
+      document.getElementById('aresult').innerText = `Área en terreno: ${area_m2} m²`;
+    }
+
+    function calcSlope() {
+      const h1 = Number(document.getElementById('h1').value) || 0;
+      const h2 = Number(document.getElementById('h2').value) || 0;
+      const dh = Number(document.getElementById('dh').value) || 0;
+      if (dh <= 0) {
+        document.getElementById('sresult').innerText = 'Distancia horizontal debe ser > 0';
+        return;
+      }
+      const dhm = Math.abs(h2 - h1);
+      const pct = (dhm / dh) * 100;
+      const ang = Math.atan(dhm / dh) * 180 / Math.PI;
+      document.getElementById('sresult').innerText = `Desnivel: ${dhm} m — Pendiente: ${pct.toFixed(2)}% — Ángulo: ${ang.toFixed(2)}°`;
+    }
+  </script>
+</body>
+</html>

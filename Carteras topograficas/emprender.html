@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Emprender con Topografía</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Fondo con carreteras y tuberías para TODO el sitio */
+    .bg-topografia {
+      background-image: url('imagenes/fondo-topografia.jpg'); /* <-- Cambia por tu imagen (carreteras y tuberías) */
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+    /* Corrección del scroll anclado bajo navbar fija */
+    :target::before {
+      content: "";
+      display: block;
+      height: 88px; /* altura aproximada del header */
+      margin: -88px 0 0;
+    }
+  </style>
+</head>
+<body class="text-gray-100 bg-topografia">
+
+  <!-- Header / Navbar con color diferente -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-blue-900/95 backdrop-blur border-b border-blue-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <img src="imagenes/4545.jpeg" alt="Logo" class="w-12 h-12 rounded-full border-2 border-white/40 object-cover">
+        <h1 class="text-xl sm:text-2xl font-bold">Emprender con Topografía</h1>
+      </div>
+      <nav class="hidden md:block">
+        <ul class="flex items-center gap-6 font-medium">
+          <li><a href="Pagina.html" class="hover:text-yellow-300">Inicio</a></li>
+          <li><a href="Nuestros servicios.html" class="hover:text-yellow-300">Servicios</a></li>
+          <li><a href="#inversion" class="hover:text-yellow-300">Inversión</a></li>
+          
+         
+        </ul>
+      </nav>
+     
+      </a>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section id="inicio" class="relative pt-28 pb-16">
+    <div class="absolute inset-0 bg-black/60"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 gap-10 items-center">
+        <div>
+          <h2 class="text-4xl sm:text-5xl font-extrabold leading-tight">
+            Lanza tu negocio de <span class="text-yellow-400">Topografía</span>
+          </h2>
+          <p class="mt-4 text-lg text-gray-200">
+            Ofrece levantamientos precisos, fotogrametría con drones y consultoría para obras civiles e hidráulicas.
+            Diferénciate con tecnología, rapidez y reportes profesionales.
+          </p>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <a href="#paquetes" class="bg-yellow-400 text-gray-900 px-6 py-3 rounded-xl font-semibold hover:bg-yellow-300 transition">Ver paquetes</a>
+            <a href="#servicios" class="bg-white/10 hover:bg-white/20 px-6 py-3 rounded-xl font-semibold">Conocer servicios</a>
+          </div>
+        </div>
+        <div class="bg-white/10 backdrop-blur rounded-2xl p-6 shadow-2xl">
+          <img src="imagenes/topo.jpg" class="w-full h-64 object-cover rounded-xl" alt="Topografía">
+          <ul class="mt-5 grid grid-cols-2 gap-3 text-sm">
+            <li class="bg-white/10 rounded-xl p-3">
+              <p class="font-semibold">Drones & GPS RTK</p>
+              <p class="text-gray-200">Precisión centimétrica</p>
+            </li>
+            <li class="bg-white/10 rounded-xl p-3">
+              <p class="font-semibold">Modelos 3D</p>
+              <p class="text-gray-200">Curvas de nivel y MDT</p>
+            </li>
+            <li class="bg-white/10 rounded-xl p-3">
+              <p class="font-semibold">Obras Civiles</p>
+              <p class="text-gray-200">Vías, puentes, redes</p>
+            </li>
+            <li class="bg-white/10 rounded-xl p-3">
+              <p class="font-semibold">Reportes ejecutivos</p>
+              <p class="text-gray-200">Entregables claros</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICIOS -->
+  <section id="servicios" class="relative py-16">
+    <div class="absolute inset-0 bg-black/60"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h3 class="text-3xl font-extrabold mb-8">Servicios para emprender</h3>
+      <div class="grid md:grid-cols-3 gap-6">
+        <!-- Card -->
+        <article class="bg-white/10 rounded-2xl p-6 shadow">
+          <h4 class="text-xl font-bold mb-2">Levantamientos topográficos</h4>
+          <p class="text-gray-200 mb-4">Planos, curvas de nivel, MDT/MDT, linderos y redes de servicios.</p>
+          <ul class="text-sm space-y-2 list-disc list-inside text-gray-200">
+            <li>Estación total / GPS de alta precisión</li>
+            <li>Validación en campo y control de calidad</li>
+            <li>Entregables: DXF/DWG, PDF, shapefiles</li>
+          </ul>
+        </article>
+
+        <article class="bg-white/10 rounded-2xl p-6 shadow">
+          <h4 class="text-xl font-bold mb-2">Fotogrametría con drones</h4>
+          <p class="text-gray-200 mb-4">Ortomo saicos, nubes de puntos, DEM/DSM y volumetrías.</p>
+          <ul class="text-sm space-y-2 list-disc list-inside text-gray-200">
+            <li>Plan de vuelo y permisos</li>
+            <li>Procesamiento y georreferenciación</li>
+            <li>Viewer 3D para clientes</li>
+          </ul>
+        </article>
+
+        <article class="bg-white/10 rounded-2xl p-6 shadow">
+          <h4 class="text-xl font-bold mb-2">Consultoría civil e hidráulica</h4>
+          <p class="text-gray-200 mb-4">Diseño preliminar y análisis de riesgos: inundación, erosión, deslizamientos.</p>
+          <ul class="text-sm space-y-2 list-disc list-inside text-gray-200">
+            <li>Vías, puentes, redes de acueducto/alcantarillado</li>
+            <li>Presupuestos y cantidades de obra</li>
+            <li>Informes técnicos ejecutivos</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- INVERSIÓN / EQUIPO -->
+  <section id="inversion" class="relative py-16">
+    <div class="absolute inset-0 bg-black/60"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h3 class="text-3xl font-extrabold mb-8">Equipo e inversión inicial</h3>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-white/10 rounded-2xl p-6">
+          <h4 class="text-xl font-bold mb-3">Kit de inicio recomendado</h4>
+          <ul class="space-y-2 text-gray-200">
+            <li>• Estación total o GPS RTK (base/rover)</li>
+            <li>• Drone con cámara métrica (opcional LiDAR)</li>
+            <li>• Trípodes, prismas, jalones y accesorios</li>
+            <li>• Laptop potente (CPU/RAM/GPU) + almacenamiento</li>
+            <li>• Software: Civil 3D, QGIS, Pix4D/Metashape</li>
+            <li>• Seguros, permisos y licencias</li>
+          </ul>
+        </div>
+
+        <div class="bg-white/10 rounded-2xl p-6">
+          <h4 class="text-xl font-bold mb-3">Estructura de costos (ejemplo)</h4>
+          <div class="grid grid-cols-2 gap-3 text-sm">
+            <div class="bg-white/10 rounded-xl p-3">
+              <p class="font-semibold">CapEx</p>
+              <p class="text-gray-200">Equipos y software</p>
+            </div>
+            <div class="bg-white/10 rounded-xl p-3">
+              <p class="font-semibold">OpEx</p>
+              <p class="text-gray-200">Transporte, viáticos, seguros</p>
+            </div>
+            <div class="bg-white/10 rounded-xl p-3">
+              <p class="font-semibold">Marketing</p>
+              <p class="text-gray-200">Web, portafolio, ads</p>
+            </div>
+            <div class="bg-white/10 rounded-xl p-3">
+              <p class="font-semibold">Contingencias</p>
+              <p class="text-gray-200">5–10% del proyecto</p>
+            </div>
+          </div>
+          <p class="mt-4 text-gray-200 text-sm">
+            Consejo: inicia con alquiler de equipos para validar demanda y reinvierte en activos propios.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+
+  <!-- CTA -->
+  <section class="relative py-16">
+    <div class="absolute inset-0 bg-black/60"></div>
+    <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h3 class="text-3xl font-extrabold">¿Listo para empezar?</h3>
+      <p class="mt-3 text-gray-200">
+      
+      </p>
+      <a href="Contactenos.html" class="mt-6 inline-block bg-yellow-400 text-gray-900 px-6 py-3 rounded-xl font-semibold hover:bg-yellow-300 transition">
+        Hablar con un asesor
+      </a>
+    </div>
+  </section>
+
+  
+
+  <!-- FOOTER -->
+  <footer class="bg-blue-950/95 border-t border-white/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
+      <p class="text-sm text-gray-200">© <span id="y"></span> Tu Marca Topográfica. Todos los derechos reservados.</p>
+      <div class="flex items-center gap-4 text-sm">
+        <a href="#servicios" class="hover:text-yellow-300">Servicios</a>
+        <a href="#paquetes" class="hover:text-yellow-300">Paquetes</a>
+        <a href="Contactenos.html" class="hover:text-yellow-300">Contacto</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Año dinámico en footer
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

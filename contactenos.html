@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contacto - Servicios Topográficos</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-white">
+  <!-- Encabezado -->
+  <header class="bg-yellow-400 shadow-md">
+    <div class="container mx-auto flex items-center justify-between p-4">
+      <img src="imagenes/logo.png" alt="Logo" class="w-12 h-12 rounded-full border-2 border-white">
+      <h1 class="text-2xl font-extrabold text-gray-900">Servicios Topográficos</h1>
+      <nav>
+        <ul class="flex space-x-6 text-gray-900 font-semibold">
+          <li><a href="index.html" class="hover:text-blue-600">Inicio</a></li>
+          <li><a href="Emprender.html" class="hover:text-blue-600">Servicios</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- CONTACTO -->
+  <section id="contacto" class="relative py-16 bg-fixed bg-center bg-cover" style="background-image: url('https://images.unsplash.com/photo-1605600493530-8e27b5f56ef4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');">
+    <div class="absolute inset-0 bg-black/60"></div>
+    <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 shadow-lg">
+        <h3 class="text-3xl font-extrabold mb-2 text-yellow-400">Contacto y cotización</h3>
+        <p class="text-gray-200 mb-6">Cuéntanos tu proyecto y te enviaremos una propuesta.</p>
+        
+        <!-- FORMULARIO -->
+        <form id="formulario" onsubmit="sendToWhatsApp(event)" class="grid md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm mb-1">Nombre</label>
+            <input type="text" id="nombre" class="w-full px-4 py-3 rounded-xl bg-white/90 text-gray-900" placeholder="Tu nombre" required>
+          </div>
+          <div>
+            <label class="block text-sm mb-1">Correo</label>
+            <input type="email" id="correo" class="w-full px-4 py-3 rounded-xl bg-white/90 text-gray-900" placeholder="tucorreo@ejemplo.com" required>
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm mb-1">Tipo de servicio</label>
+            <select id="servicio" class="w-full px-4 py-3 rounded-xl bg-white/90 text-gray-900">
+              <option>Levantamiento topográfico</option>
+              <option>Drone & fotogrametría</option>
+              <option>Consultoría civil/hidráulica</option>
+              <option>Otro (especificar)</option>
+            </select>
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm mb-1">Mensaje</label>
+            <textarea id="mensaje" rows="4" class="w-full px-4 py-3 rounded-xl bg-white/90 text-gray-900" placeholder="Describe el lugar, área aproximada, entregables que necesitas, fechas..." required></textarea>
+          </div>
+          <div class="md:col-span-2 flex items-center justify-between">
+            <label class="inline-flex items-center gap-2 text-sm">
+              <input type="checkbox" class="w-4 h-4" required>
+              Acepto tratamiento de datos.
+            </label>
+            <button type="submit" class="bg-yellow-400 text-gray-900 px-6 py-3 rounded-xl font-semibold hover:bg-yellow-300 transition">
+              Enviar solicitud
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-gray-400 py-6 text-center">
+    <p>© 2024 Servicios Topográficos. Todos los derechos reservados.</p>
+  </footer>
+
+  <!-- SCRIPT para WhatsApp -->
+  <script>
+    function sendToWhatsApp(event) {
+      event.preventDefault();
+
+      let nombre = document.getElementById("nombre").value;
+      let correo = document.getElementById("correo").value;
+      let servicio = document.getElementById("servicio").value;
+      let mensaje = document.getElementById("mensaje").value;
+
+      let texto = `📌 Nueva solicitud:%0A
+👤 Nombre: ${nombre}%0A
+📧 Correo: ${correo}%0A
+🛠 Servicio: ${servicio}%0A
+💬 Mensaje: ${mensaje}`;
+
+      // ⚠️ Reemplaza con tu número real en formato internacional (ejemplo: 57 para Colombia)
+      let url = "https://wa.me/573207103171?text=" + texto;
+
+      window.open(url, "_blank");
+    }
+  </script>
+
+</body>
+</html>

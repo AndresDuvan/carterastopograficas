@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Emprender con Topografía</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .bg-topografia {
+      background-image: url('imagenes/fondo-topografia.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+    :target::before {
+      content: "";
+      display: block;
+      height: 88px;
+      margin: -88px 0 0;
+    }
+  </style>
+</head>
+<body class="text-gray-100 bg-topografia">
+
+  <!-- NAVBAR -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-blue-800">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-3">
+      <div class="flex items-center gap-3 logo">
+        <img src="imagenes/logo.png" alt="Logo" class="w-12 h-12 rounded-full border-2 border-white">
+        <h1 class="text-lg sm:text-xl font-bold text-white">Carteras Topográficas</h1>
+      </div>
+      <nav>
+        <ul class="flex items-center gap-6 font-medium">
+          <li><a href="index.html" class="text-white hover:text-yellow-300">Inicio</a></li>
+          <li><a href="emprender.html" class="text-yellow-300 font-bold">Emprender</a></li>
+          <li><a href="Nuestros servicios.html" class="text-white hover:text-yellow-300">Nuestros servicios</a></li>
+          <li><a href="entretenimiento.html" class="text-white hover:text-yellow-300">Entretenimiento</a></li>
+          <li><a href="formulario.html" class="text-white hover:text-yellow-300">Formulario</a></li>
+          <li><a href="contactenos.html" class="text-white hover:text-yellow-300">Contacto</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section id="inicio" class="relative h-[90vh] flex items-center justify-center text-center bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1521207418485-99c705420785?auto=format&fit=crop&w=1600&q=80');">
+    <div class="absolute inset-0 bg-black/70"></div>
+    <div class="relative z-10 max-w-3xl px-4">
+      <h2 class="text-4xl sm:text-5xl font-extrabold leading-tight text-yellow-400 drop-shadow-lg">
+        Emprende con la Topografía 🚀
+      </h2>
+      <p class="mt-4 text-lg text-gray-200">
+        No necesitas grandes equipos para empezar. Con organización, capacitación y apoyo, puedes iniciar tu propio negocio topográfico.
+      </p>
+      <!-- Botón eliminado -->
+    </div>
+  </section>
+
+  <!-- ¿POR QUÉ EMPRENDER? -->
+  <section id="porque" class="relative py-16 bg-black/60">
+    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h3 class="text-3xl font-bold mb-6 text-yellow-400">¿Por qué emprender en topografía?</h3>
+      <p class="text-gray-200 leading-relaxed max-w-3xl mx-auto">
+        La topografía es clave para el desarrollo de infraestructura, urbanismo y medio ambiente. 
+        Cada proyecto necesita datos del terreno, lo que abre oportunidades para quienes se organizan y empiezan desde lo local.
+      </p>
+    </div>
+  </section>
+
+  <!-- ¿CÓMO EMPEZAR? -->
+  <section id="como" class="relative py-16">
+    <div class="absolute inset-0 bg-black/60"></div>
+    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h3 class="text-3xl font-bold mb-10 text-yellow-400 text-center">¿Cómo empezar tu negocio?</h3>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-white/10 rounded-xl p-6">
+          <h4 class="font-semibold mb-3">1. Define tu enfoque</h4>
+          <p>Empieza con lo que tengas: levantamientos básicos, planos y consultoría local.</p>
+        </div>
+        <div class="bg-white/10 rounded-xl p-6">
+          <h4 class="font-semibold mb-3">2. Aprovecha el apoyo</h4>
+          <p>Usa programas gratuitos como SENA o Cámaras de Comercio para formarte y crecer.</p>
+        </div>
+        <div class="bg-white/10 rounded-xl p-6">
+          <h4 class="font-semibold mb-3">3. Formaliza tu negocio</h4>
+          <p>Registra tu emprendimiento, crea tu portafolio y ofrece servicios a tu comunidad.</p>
+        </div>
+        <div class="bg-white/10 rounded-xl p-6">
+          <h4 class="font-semibold mb-3">4. Conecta con clientes</h4>
+          <p>Promuévete en tu región, redes sociales y a través de tus primeros trabajos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- APOYOS -->
+  <section id="apoyos" class="py-16 bg-black/60">
+    <div class="max-w-6xl mx-auto px-6">
+      <h3 class="text-3xl font-bold text-center mb-10 text-yellow-400">💡 Apoyos para Emprender</h3>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <a href="https://www.confecamaras.org.co/" target="_blank" class="bg-white/10 p-6 rounded-xl hover:bg-yellow-400/20 transition">
+          <h4 class="font-semibold text-xl mb-2">Cámaras de Comercio</h4>
+          <p>Capacitaciones y acompañamiento a emprendedores.</p>
+        </a>
+        <a href="https://www.bancoldex.com/" target="_blank" class="bg-white/10 p-6 rounded-xl hover:bg-yellow-400/20 transition">
+          <h4 class="font-semibold text-xl mb-2">Bancóldex</h4>
+          <p>Créditos y líneas especiales para emprender.</p>
+        </a>
+        <a href="https://www.sena.edu.co/es-co/trabajo/Paginas/fondo-emprender.aspx" target="_blank" class="bg-white/10 p-6 rounded-xl hover:bg-yellow-400/20 transition">
+          <h4 class="font-semibold text-xl mb-2">Fondo Emprender - SENA</h4>
+          <p>Capital semilla y asesoría para nuevas ideas.</p>
+        </a>
+        <a href="https://www.mintic.gov.co/" target="_blank" class="bg-white/10 p-6 rounded-xl hover:bg-yellow-400/20 transition">
+          <h4 class="font-semibold text-xl mb-2">MinTIC</h4>
+          <p>Programas de transformación digital y tecnología.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOTICIAS -->
+  <section id="noticias" class="py-16 bg-gray-900">
+    <div class="max-w-6xl mx-auto px-6">
+      <h3 class="text-3xl font-bold text-center mb-10 text-yellow-400">📰 Noticias y Tendencias</h3>
+      <div class="overflow-x-auto flex gap-6 snap-x snap-mandatory">
+        <article class="min-w-[300px] bg-white/10 p-6 rounded-xl snap-center">
+          <h4 class="font-semibold text-xl mb-2">Emprender es posible</h4>
+          <p>Muchos negocios de topografía empiezan con contratos locales pequeños.</p>
+        </article>
+        <article class="min-w-[300px] bg-white/10 p-6 rounded-xl snap-center">
+          <h4 class="font-semibold text-xl mb-2">Formación gratuita</h4>
+          <p>El SENA ofrece cursos en topografía accesibles para todos.</p>
+        </article>
+        <article class="min-w-[300px] bg-white/10 p-6 rounded-xl snap-center">
+          <h4 class="font-semibold text-xl mb-2">Crecimiento regional</h4>
+          <p>Los proyectos locales generan demanda de levantamientos básicos.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-blue-950/95 border-t border-white/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
+      <p class="text-sm text-gray-200">© <span id="y"></span> Tu Marca Topográfica. Todos los derechos reservados.</p>
+      <div class="flex items-center gap-4 text-sm">
+        <a href="emprender.html#porque" class="hover:text-yellow-300">¿Por qué emprender?</a>
+        <a href="emprender.html#como" class="hover:text-yellow-300">Cómo empezar</a>
+        <a href="emprender.html#apoyos" class="hover:text-yellow-300">Apoyos</a>
+        <a href="emprender.html#noticias" class="hover:text-yellow-300">Noticias</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

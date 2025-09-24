@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contacto - Servicios Topográficos</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-white">
+
+  <!-- Encabezado -->
+  <header class="bg-yellow-400 shadow-md">
+    <div class="container mx-auto flex items-center justify-between p-4">
+      <h1 class="text-2xl font-extrabold text-gray-900">Servicios Topográficos</h1>
+      <nav>
+        <ul class="flex space-x-6 text-gray-900 font-semibold">
+          <li><a href="Pagina.html" class="hover:text-blue-600">Inicio</a></li>
+          <li><a href="Emprender.html" class="hover:text-blue-600">Servicios</a></li>
+          <li><a href="#Contactenos.html" class="hover:text-blue-600">Contacto</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- CONTACTO -->
+  <section id="contacto" class="relative py-16 bg-fixed bg-center bg-cover" style="background-image: url('https://images.unsplash.com/photo-1605600493530-8e27b5f56ef4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');">
+    <div class="absolute inset-0 bg-black/60"></div>
+    <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 shadow-lg">
+        <h3 class="text-3xl font-extrabold mb-2 text-yellow-400">Contacto y cotización</h3>
+        <p class="text-gray-200 mb-6">Cuéntanos tu proyecto y te enviaremos una propuesta.</p>
+        <form class="grid md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm mb-1">Nombre</label>
+            <input type="text" class="w-full px-4 py-3 rounded-xl bg-white/90 text-gray-900" placeholder="Tu nombre">
+          </div>
+          <div>
+            <label class="block text-sm mb-1">Correo</label>
+            <input type="email" class="w-full px-4 py-3 rounded-xl bg-white/90 text-gray-900" placeholder="tucorreo@ejemplo.com">
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm mb-1">Tipo de servicio</label>
+            <select class="w-full px-4 py-3 rounded-xl bg-white/90 text-gray-900">
+              <option>Levantamiento topográfico</option>
+              <option>Drone & fotogrametría</option>
+              <option>Consultoría civil/hidráulica</option>
+              <option>Otro (especificar)</option>
+            </select>
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm mb-1">Mensaje</label>
+            <textarea rows="4" class="w-full px-4 py-3 rounded-xl bg-white/90 text-gray-900" placeholder="Describe el lugar, área aproximada, entregables que necesitas, fechas..."></textarea>
+          </div>
+          <div class="md:col-span-2 flex items-center justify-between">
+            <label class="inline-flex items-center gap-2 text-sm">
+              <input type="checkbox" class="w-4 h-4">
+              Acepto tratamiento de datos.
+            </label>
+            <button type="submit" class="bg-yellow-400 text-gray-900 px-6 py-3 rounded-xl font-semibold hover:bg-yellow-300 transition">
+              Enviar solicitud
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-gray-400 py-6 text-center">
+    <p>© 2024 Servicios Topográficos. Todos los derechos reservados.</p>
+  </footer>
+
+</body>
+</html>
