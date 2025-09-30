@@ -6,118 +6,106 @@
   <title>Feedback — ¿Cómo te sentiste en la página?</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* Estilos para estrellas */
     .star { cursor: pointer; font-size: 1.6rem; }
-    .star.active { color: #fbbf24; } /* amarillo */
-    /* simple modal */
+    .star.active { color: #fbbf24; }
     .modal-backdrop { background: rgba(0,0,0,0.6); }
   </style>
 </head>
-<body class="min-h-screen bg-fixed bg-center bg-cover" style="background-image:url('https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=1350&q=80');">
-  <div class="min-h-screen bg-black/60 text-gray-100 flex flex-col">
+<body class="min-h-screen bg-gray-100 text-gray-900">
+  <div class="min-h-screen flex flex-col">
     <header class="max-w-5xl mx-auto w-full p-6">
       <h1 class="text-3xl font-extrabold">¿Cómo te sentiste navegando la página?</h1>
-      <p class="text-gray-300 mt-2">Tu opinión nos ayuda a mejorar — toma 1 minuto.</p>
+      <p class="text-gray-700 mt-2">Tu opinión nos ayuda a mejorar — toma 1 minuto.</p>
     </header>
 
     <main class="flex-1 max-w-5xl mx-auto w-full px-6 pb-12">
-      <section class="bg-white/6 backdrop-blur rounded-2xl p-6 shadow-lg">
-        <form id="feedbackForm" class="grid grid-cols-1 gap-6">
+      <section class="bg-white rounded-2xl p-6 shadow-lg">
+        <form id="feedbackForm" method="POST" action="https://formspree.io/f/YOUR_FORM_ID" class="grid grid-cols-1 gap-6">
           <!-- Nombre / Email -->
           <div class="grid md:grid-cols-2 gap-4">
             <div>
               <label class="block text-sm font-semibold mb-1">Nombre (opcional)</label>
-              <input id="name" type="text" placeholder="Tu nombre" class="w-full px-4 py-3 rounded-lg bg-white/90 text-gray-900" />
+              <input id="name" name="name" type="text" placeholder="Tu nombre" class="w-full px-4 py-3 rounded-lg bg-white border border-gray-300" />
             </div>
             <div>
               <label class="block text-sm font-semibold mb-1">Correo (opcional)</label>
-              <input id="email" type="email" placeholder="tu@correo.com" class="w-full px-4 py-3 rounded-lg bg-white/90 text-gray-900" />
+              <input id="email" name="email" type="email" placeholder="tu@correo.com" class="w-full px-4 py-3 rounded-lg bg-white border border-gray-300" />
             </div>
           </div>
 
-          <!-- Pregunta: rating con estrellas -->
+          <!-- Estrellas -->
           <div>
             <label class="block text-sm font-semibold mb-2">¿Cómo calificarías tu experiencia general?</label>
             <div id="rating" class="flex items-center gap-2" aria-label="Valoración de 1 a 5 estrellas" role="radiogroup">
-              <!-- Estrellas generadas por JS -->
               <span class="star text-2xl" data-value="1" role="radio" aria-checked="false">☆</span>
               <span class="star text-2xl" data-value="2" role="radio" aria-checked="false">☆</span>
               <span class="star text-2xl" data-value="3" role="radio" aria-checked="false">☆</span>
               <span class="star text-2xl" data-value="4" role="radio" aria-checked="false">☆</span>
               <span class="star text-2xl" data-value="5" role="radio" aria-checked="false">☆</span>
-              <div id="ratingLabel" class="ml-4 text-sm text-gray-300">—</div>
+              <div id="ratingLabel" class="ml-4 text-sm text-gray-600">—</div>
             </div>
+            <input type="hidden" name="rating" id="ratingValueInput" />
           </div>
 
-          <!-- Pregunta: estado de ánimo con emojis -->
+          <!-- Estado de ánimo -->
           <div>
             <label class="block text-sm font-semibold mb-2">¿Cómo te sentiste mientras navegabas?</label>
             <div id="mood" class="flex items-center gap-4">
-              <button type="button" data-value="Muy bien" class="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20">😄 Muy bien</button>
-              <button type="button" data-value="Bien" class="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20">🙂 Bien</button>
-              <button type="button" data-value="Neutral" class="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20">😐 Neutral</button>
-              <button type="button" data-value="Mal" class="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20">☹️ Mal</button>
-              <button type="button" data-value="Muy mal" class="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20">😡 Muy mal</button>
+              <button type="button" data-value="Muy bien" class="px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200">😄 Muy bien</button>
+              <button type="button" data-value="Bien" class="px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200">🙂 Bien</button>
+              <button type="button" data-value="Neutral" class="px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200">😐 Neutral</button>
+              <button type="button" data-value="Mal" class="px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200">☹️ Mal</button>
+              <button type="button" data-value="Muy mal" class="px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200">😡 Muy mal</button>
             </div>
-            <input type="hidden" id="moodValue" name="moodValue" />
+            <input type="hidden" id="moodValue" name="mood" />
           </div>
 
-          <!-- Pregunta abierta -->
+          <!-- Comentarios -->
           <div>
             <label class="block text-sm font-semibold mb-1">¿Qué te gustó o qué mejorarías?</label>
-            <textarea id="comments" rows="4" placeholder="Escribe aquí tus comentarios..." class="w-full px-4 py-3 rounded-lg bg-white/90 text-gray-900"></textarea>
+            <textarea id="comments" name="comments" rows="4" placeholder="Escribe aquí tus comentarios..." class="w-full px-4 py-3 rounded-lg bg-white border border-gray-300"></textarea>
           </div>
 
           <!-- Consentimiento -->
           <div class="flex items-start gap-3">
-            <input id="consent" type="checkbox" class="mt-1 w-4 h-4" />
-            <label for="consent" class="text-sm text-gray-300">Autorizo el uso de este feedback para mejorar la experiencia (los datos no se compartirán).</label>
+            <input id="consent" name="consent" type="checkbox" class="mt-1 w-4 h-4" />
+            <label for="consent" class="text-sm text-gray-700">Autorizo el uso de este feedback para mejorar la experiencia (los datos no se compartirán).</label>
           </div>
 
           <!-- Botones -->
           <div class="flex items-center gap-3">
             <button id="submitBtn" type="submit" class="bg-yellow-400 text-gray-900 px-6 py-3 rounded-xl font-semibold hover:bg-yellow-300 transition">Enviar feedback</button>
-            <button id="clearBtn" type="button" class="bg-white/10 px-4 py-3 rounded-xl hover:bg-white/20">Limpiar</button>
-            <div id="formMsg" class="text-sm text-gray-300 ml-4"></div>
+            <button id="clearBtn" type="button" class="bg-gray-200 px-4 py-3 rounded-xl hover:bg-gray-300">Limpiar</button>
+            <div id="formMsg" class="text-sm text-gray-600 ml-4"></div>
           </div>
         </form>
       </section>
-
-      <!-- Historial local (opcional) -->
-      <section class="mt-6 bg-white/6 rounded-2xl p-4 text-sm text-gray-300">
-        <h3 class="font-semibold mb-2">Respuestas almacenadas localmente</h3>
-        <p class="mb-3">(Solo visibles en este navegador — se guardan en localStorage)</p>
-        <ul id="responsesList" class="space-y-2"></ul>
-        <div class="mt-3">
-          <button id="clearStorage" class="bg-red-600 px-3 py-2 rounded-lg hover:bg-red-500">Borrar historial local</button>
-        </div>
-      </section>
     </main>
 
-    <footer class="py-6 text-center text-sm text-gray-400">
+    <footer class="py-6 text-center text-sm text-gray-500">
       © <span id="year"></span> Tu sitio Topográfico — gracias por tu ayuda
     </footer>
   </div>
 
-  <!-- Modal de agradecimiento -->
+  <!-- Modal -->
   <div id="modal" class="fixed inset-0 hidden items-center justify-center z-50">
     <div class="modal-backdrop absolute inset-0"></div>
     <div class="relative bg-white rounded-xl p-6 max-w-md mx-4 text-gray-900 shadow-2xl">
       <h3 class="text-xl font-bold mb-2">¡Gracias por tu feedback!</h3>
-      <p id="modalText" class="text-sm mb-4"></p>
+      <p id="modalText" class="text-sm mb-4">Tu mensaje ha sido enviado.</p>
       <div class="text-right">
         <button id="closeModal" class="bg-yellow-400 px-4 py-2 rounded-lg hover:bg-yellow-300">Cerrar</button>
       </div>
     </div>
   </div>
 
+  <!-- Scripts -->
   <script>
-    // dinámicos
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Estrellas (rating)
     const stars = document.querySelectorAll('#rating .star');
     const ratingLabel = document.getElementById('ratingLabel');
+    const ratingInput = document.getElementById('ratingValueInput');
     let ratingValue = 0;
     const ratingTexts = ['Muy malo', 'Malo', 'Regular', 'Bueno', 'Excelente'];
 
@@ -135,7 +123,7 @@
       });
     });
 
-    function updateStars(){
+    function updateStars() {
       stars.forEach(s => {
         const v = parseInt(s.dataset.value, 10);
         if (v <= ratingValue) {
@@ -148,10 +136,11 @@
           s.setAttribute('aria-checked','false');
         }
       });
-      ratingLabel.textContent = ratingValue ? `${ratingValue} — ${ratingTexts[ratingValue-1]}` : '—';
+      ratingLabel.textContent = ratingValue ? `${ratingValue} — ${ratingTexts[ratingValue - 1]}` : '—';
+      ratingInput.value = ratingValue;
     }
 
-    // Mood buttons
+    // Mood selection
     const moodBtns = document.querySelectorAll('#mood button');
     const moodValueInput = document.getElementById('moodValue');
     let moodSelected = '';
@@ -164,120 +153,36 @@
       });
     });
 
-    // Form logic
-    const form = document.getElementById('feedbackForm');
-    const formMsg = document.getElementById('formMsg');
-    const responsesList = document.getElementById('responsesList');
-
-    // load saved responses
-    function loadResponses(){
-      const arr = JSON.parse(localStorage.getItem('feedback_responses') || '[]');
-      responsesList.innerHTML = '';
-      if (arr.length === 0) {
-        responsesList.innerHTML = '<li class="text-gray-500">No hay respuestas guardadas.</li>';
-        return;
-      }
-      arr.slice().reverse().forEach(r => {
-        const li = document.createElement('li');
-        li.className = 'bg-white/5 p-3 rounded-lg';
-        li.innerHTML = `<strong>${r.name || 'Anónimo'}</strong> — <em>${r.rating || '-'} estrellas</em><br/>
-                        <span class="text-gray-300 text-sm">Ánimo: ${r.mood || '-'}</span><br/>
-                        <div class="mt-2 text-sm text-gray-200">${r.comments ? escapeHtml(r.comments) : '<i>Sin comentarios</i>'}</div>
-                        <div class="text-xs text-gray-400 mt-2">${new Date(r.timestamp).toLocaleString()}</div>`;
-        responsesList.appendChild(li);
-      });
-    }
-
-    loadResponses();
-
-    // escape para mostrar texto seguro
-    function escapeHtml(unsafe) {
-      return unsafe
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
-
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      formMsg.textContent = '';
-      // Validación mínima: rating or mood or comments required
-      const name = document.getElementById('name').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const comments = document.getElementById('comments').value.trim();
-      const consent = document.getElementById('consent').checked;
-
-      if (!ratingValue && !moodSelected && !comments) {
-        formMsg.textContent = 'Por favor, deja al menos una valoración, ánimo o un comentario.';
-        return;
-      }
-
-      if (!consent) {
-        formMsg.textContent = 'Por favor autoriza el uso del feedback marcando la casilla de consentimiento.';
-        return;
-      }
-
-      // crear objeto de respuesta
-      const resp = {
-        name: name || '',
-        email: email || '',
-        rating: ratingValue || null,
-        mood: moodSelected || '',
-        comments: comments || '',
-        timestamp: Date.now()
-      };
-
-      // guardar en localStorage
-      const arr = JSON.parse(localStorage.getItem('feedback_responses') || '[]');
-      arr.push(resp);
-      localStorage.setItem('feedback_responses', JSON.stringify(arr));
-
-      // mostrar modal agradecimiento
-      showModal(resp);
-
-      // refrescar listado
-      loadResponses();
-
-      // limpiar formulario (pero mantenemos email opcional si quieres)
-      form.reset();
-      ratingValue = 0; updateStars();
-      moodSelected = ''; moodValueInput.value = '';
-      moodBtns.forEach(b => b.classList.remove('ring-2','ring-yellow-300'));
-      formMsg.textContent = '';
-    });
-
-    // Clear button
-    document.getElementById('clearBtn').addEventListener('click', () => {
-      form.reset();
-      ratingValue = 0; updateStars();
-      moodSelected = ''; moodValueInput.value = '';
-      moodBtns.forEach(b => b.classList.remove('ring-2','ring-yellow-300'));
-      formMsg.textContent = 'Formulario limpiado.';
-    });
-
-    // Local storage clear
-    document.getElementById('clearStorage').addEventListener('click', () => {
-      if (!confirm('¿Borrar todo el historial local? Esta acción no se puede deshacer.')) return;
-      localStorage.removeItem('feedback_responses');
-      loadResponses();
-    });
-
-    // Modal functions
+    // Modal
     const modal = document.getElementById('modal');
-    const modalText = document.getElementById('modalText');
     document.getElementById('closeModal').addEventListener('click', () => {
       modal.classList.add('hidden');
     });
 
-    function showModal(resp) {
-      modalText.innerHTML = `<strong>${resp.name ? escapeHtml(resp.name) : 'Gracias'}</strong>, hemos guardado tu feedback. <br/>
-        Valoración: ${resp.rating ? resp.rating + ' ⭐' : '—'}<br/>
-        Ánimo: ${resp.mood || '—'}<br/>
-        Comentarios: ${resp.comments ? escapeHtml(resp.comments) : '—'}`;
-      modal.classList.remove('hidden');
-    }
+    // Clear button
+    document.getElementById('clearBtn').addEventListener('click', () => {
+      document.getElementById('feedbackForm').reset();
+      ratingValue = 0; updateStars();
+      moodSelected = ''; moodValueInput.value = '';
+      moodBtns.forEach(b => b.classList.remove('ring-2','ring-yellow-300'));
+      document.getElementById('formMsg').textContent = 'Formulario limpiado.';
+    });
+
+    // Intercept form submit to show modal
+    const form = document.getElementById('feedbackForm');
+    form.addEventListener('submit', function (e) {
+      const consent = document.getElementById('consent').checked;
+      if (!consent) {
+        e.preventDefault();
+        document.getElementById('formMsg').textContent = 'Por favor autoriza el uso del feedback marcando la casilla de consentimiento.';
+        return;
+      }
+
+      // Let the form submit normally, but also show modal after a short delay
+      setTimeout(() => {
+        modal.classList.remove('hidden');
+      }, 1000);
+    });
   </script>
 </body>
 </html>
