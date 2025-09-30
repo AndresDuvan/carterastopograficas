@@ -5,54 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Formulario de Opinión</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f3f4f6;
-      padding: 20px;
-    }
+    body { font-family: Arial, sans-serif; background: #f3f4f6; padding: 20px; }
     .form-container {
-      max-width: 600px;
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      margin: auto;
+      max-width: 600px; background: white; padding: 20px; border-radius: 8px; margin: auto;
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
-    .form-container h2 {
-      text-align: center;
-      color: #111827;
-    }
-    label {
-      display: block;
-      margin: 10px 0 5px;
-    }
-    input[type="text"], input[type="email"], textarea {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
-      border-radius: 4px;
-      border: 1px solid #d1d5db;
-    }
-    textarea {
-      height: 100px;
-    }
-    .rating, .feelings {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-    .button {
-      display: flex;
-      gap: 10px;
-      margin-top: 10px;
-    }
-    button {
-      padding: 10px 20px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
-    }
+    h2 { text-align: center; color: #111827; }
+    label { display: block; margin: 10px 0 5px; }
+    input, textarea { width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 4px; border: 1px solid #d1d5db; }
+    textarea { height: 100px; }
+    .rating, .feelings { display: flex; gap: 10px; flex-wrap: wrap; }
+    button { padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
     .enviar { background-color: #facc15; color: black; }
     .limpiar { background-color: #e5e7eb; }
   </style>
@@ -60,12 +23,12 @@
 <body>
   <div class="form-container">
     <h2>¿Cómo te sentiste navegando la página?</h2>
-    <form id="feedbackForm">
+    <form action="https://formspree.io/f/xovkdzeg" method="POST"> <!-- pega aquí tu endpoint -->
       <label>Nombre (opcional)</label>
-      <input type="text" id="nombre">
+      <input type="text" name="nombre">
 
       <label>Correo (opcional)</label>
-      <input type="email" id="correo">
+      <input type="email" name="correo">
 
       <label>¿Cómo calificarías tu experiencia general?</label>
       <div class="rating">
@@ -86,44 +49,13 @@
       </div>
 
       <label>¿Qué te gustó o qué mejorarías?</label>
-      <textarea id="comentarios" placeholder="Escribe aquí tus comentarios..."></textarea>
+      <textarea name="comentarios" placeholder="Escribe aquí tus comentarios..."></textarea>
 
-      <div>
-        <label><input type="checkbox" id="autorizo"> Autorizo el uso de este feedback para mejorar la experiencia</label>
-      </div>
+      <label><input type="checkbox" name="autorizo"> Autorizo el uso de este feedback</label>
 
-      <div class="button">
-        <button type="button" class="enviar" onclick="enviarWhatsApp()">Enviar feedback</button>
-        <button type="reset" class="limpiar">Limpiar</button>
-      </div>
+      <button type="submit" class="enviar">Enviar feedback</button>
+      <button type="reset" class="limpiar">Limpiar</button>
     </form>
   </div>
-
-  <script>
-    function enviarWhatsApp() {
-      const nombre = document.getElementById('nombre').value || 'No especificado';
-      const correo = document.getElementById('correo').value || 'No especificado';
-      const estrellas = document.querySelector('input[name="estrellas"]:checked')?.value || 'No calificado';
-      const sentimiento = document.querySelector('input[name="sentimiento"]:checked')?.value || 'No respondido';
-      const comentarios = document.getElementById('comentarios').value || 'Sin comentarios';
-      const autorizo = document.getElementById('autorizo').checked ? 'Sí' : 'No';
-
-      const mensaje = `📋 *Nuevo Feedback de Usuario*:
-
-👤 Nombre: ${nombre}
-📧 Correo: ${correo}
-⭐ Experiencia general: ${estrellas}
-😃 Sentimiento al navegar: ${sentimiento}
-📝 Comentarios: ${comentarios}
-✅ Autorización para uso del feedback: ${autorizo}`;
-
-      // Número de teléfono destino (con código de país, sin espacios)
-      const numero = "573168397722"; // Colombia (+57)
-
-      // Redirigir a WhatsApp con mensaje
-      const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
-      window.open(url, '_blank');
-    }
-  </script>
 </body>
 </html>
