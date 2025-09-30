@@ -1,188 +1,129 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Feedback — ¿Cómo te sentiste en la página?</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Formulario de Opinión</title>
   <style>
-    .star { cursor: pointer; font-size: 1.6rem; }
-    .star.active { color: #fbbf24; }
-    .modal-backdrop { background: rgba(0,0,0,0.6); }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f4f6;
+      padding: 20px;
+    }
+    .form-container {
+      max-width: 600px;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin: auto;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .form-container h2 {
+      text-align: center;
+      color: #111827;
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+    input[type="text"], input[type="email"], textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 4px;
+      border: 1px solid #d1d5db;
+    }
+    textarea {
+      height: 100px;
+    }
+    .rating, .feelings {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .button {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .enviar { background-color: #facc15; color: black; }
+    .limpiar { background-color: #e5e7eb; }
   </style>
 </head>
-<body class="min-h-screen bg-gray-100 text-gray-900">
-  <div class="min-h-screen flex flex-col">
-    <header class="max-w-5xl mx-auto w-full p-6">
-      <h1 class="text-3xl font-extrabold">¿Cómo te sentiste navegando la página?</h1>
-      <p class="text-gray-700 mt-2">Tu opinión nos ayuda a mejorar — toma 1 minuto.</p>
-    </header>
+<body>
+  <div class="form-container">
+    <h2>¿Cómo te sentiste navegando la página?</h2>
+    <form id="feedbackForm">
+      <label>Nombre (opcional)</label>
+      <input type="text" id="nombre">
 
-    <main class="flex-1 max-w-5xl mx-auto w-full px-6 pb-12">
-      <section class="bg-white rounded-2xl p-6 shadow-lg">
-        <form id="feedbackForm" method="POST" action="https://formspree.io/f/YOUR_FORM_ID" class="grid grid-cols-1 gap-6">
-          <!-- Nombre / Email -->
-          <div class="grid md:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-sm font-semibold mb-1">Nombre (opcional)</label>
-              <input id="name" name="name" type="text" placeholder="Tu nombre" class="w-full px-4 py-3 rounded-lg bg-white border border-gray-300" />
-            </div>
-            <div>
-              <label class="block text-sm font-semibold mb-1">Correo (opcional)</label>
-              <input id="email" name="email" type="email" placeholder="tu@correo.com" class="w-full px-4 py-3 rounded-lg bg-white border border-gray-300" />
-            </div>
-          </div>
+      <label>Correo (opcional)</label>
+      <input type="email" id="correo">
 
-          <!-- Estrellas -->
-          <div>
-            <label class="block text-sm font-semibold mb-2">¿Cómo calificarías tu experiencia general?</label>
-            <div id="rating" class="flex items-center gap-2" aria-label="Valoración de 1 a 5 estrellas" role="radiogroup">
-              <span class="star text-2xl" data-value="1" role="radio" aria-checked="false">☆</span>
-              <span class="star text-2xl" data-value="2" role="radio" aria-checked="false">☆</span>
-              <span class="star text-2xl" data-value="3" role="radio" aria-checked="false">☆</span>
-              <span class="star text-2xl" data-value="4" role="radio" aria-checked="false">☆</span>
-              <span class="star text-2xl" data-value="5" role="radio" aria-checked="false">☆</span>
-              <div id="ratingLabel" class="ml-4 text-sm text-gray-600">—</div>
-            </div>
-            <input type="hidden" name="rating" id="ratingValueInput" />
-          </div>
-
-          <!-- Estado de ánimo -->
-          <div>
-            <label class="block text-sm font-semibold mb-2">¿Cómo te sentiste mientras navegabas?</label>
-            <div id="mood" class="flex items-center gap-4">
-              <button type="button" data-value="Muy bien" class="px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200">😄 Muy bien</button>
-              <button type="button" data-value="Bien" class="px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200">🙂 Bien</button>
-              <button type="button" data-value="Neutral" class="px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200">😐 Neutral</button>
-              <button type="button" data-value="Mal" class="px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200">☹️ Mal</button>
-              <button type="button" data-value="Muy mal" class="px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200">😡 Muy mal</button>
-            </div>
-            <input type="hidden" id="moodValue" name="mood" />
-          </div>
-
-          <!-- Comentarios -->
-          <div>
-            <label class="block text-sm font-semibold mb-1">¿Qué te gustó o qué mejorarías?</label>
-            <textarea id="comments" name="comments" rows="4" placeholder="Escribe aquí tus comentarios..." class="w-full px-4 py-3 rounded-lg bg-white border border-gray-300"></textarea>
-          </div>
-
-          <!-- Consentimiento -->
-          <div class="flex items-start gap-3">
-            <input id="consent" name="consent" type="checkbox" class="mt-1 w-4 h-4" />
-            <label for="consent" class="text-sm text-gray-700">Autorizo el uso de este feedback para mejorar la experiencia (los datos no se compartirán).</label>
-          </div>
-
-          <!-- Botones -->
-          <div class="flex items-center gap-3">
-            <button id="submitBtn" type="submit" class="bg-yellow-400 text-gray-900 px-6 py-3 rounded-xl font-semibold hover:bg-yellow-300 transition">Enviar feedback</button>
-            <button id="clearBtn" type="button" class="bg-gray-200 px-4 py-3 rounded-xl hover:bg-gray-300">Limpiar</button>
-            <div id="formMsg" class="text-sm text-gray-600 ml-4"></div>
-          </div>
-        </form>
-      </section>
-    </main>
-
-    <footer class="py-6 text-center text-sm text-gray-500">
-      © <span id="year"></span> Tu sitio Topográfico — gracias por tu ayuda
-    </footer>
-  </div>
-
-  <!-- Modal -->
-  <div id="modal" class="fixed inset-0 hidden items-center justify-center z-50">
-    <div class="modal-backdrop absolute inset-0"></div>
-    <div class="relative bg-white rounded-xl p-6 max-w-md mx-4 text-gray-900 shadow-2xl">
-      <h3 class="text-xl font-bold mb-2">¡Gracias por tu feedback!</h3>
-      <p id="modalText" class="text-sm mb-4">Tu mensaje ha sido enviado.</p>
-      <div class="text-right">
-        <button id="closeModal" class="bg-yellow-400 px-4 py-2 rounded-lg hover:bg-yellow-300">Cerrar</button>
+      <label>¿Cómo calificarías tu experiencia general?</label>
+      <div class="rating">
+        <label><input type="radio" name="estrellas" value="⭐"> ⭐</label>
+        <label><input type="radio" name="estrellas" value="⭐⭐"> ⭐⭐</label>
+        <label><input type="radio" name="estrellas" value="⭐⭐⭐"> ⭐⭐⭐</label>
+        <label><input type="radio" name="estrellas" value="⭐⭐⭐⭐"> ⭐⭐⭐⭐</label>
+        <label><input type="radio" name="estrellas" value="⭐⭐⭐⭐⭐"> ⭐⭐⭐⭐⭐</label>
       </div>
-    </div>
+
+      <label>¿Cómo te sentiste mientras navegabas?</label>
+      <div class="feelings">
+        <label><input type="radio" name="sentimiento" value="😍 Muy bien"> 😍 Muy bien</label>
+        <label><input type="radio" name="sentimiento" value="😊 Bien"> 😊 Bien</label>
+        <label><input type="radio" name="sentimiento" value="😐 Neutral"> 😐 Neutral</label>
+        <label><input type="radio" name="sentimiento" value="😟 Mal"> 😟 Mal</label>
+        <label><input type="radio" name="sentimiento" value="😡 Muy mal"> 😡 Muy mal</label>
+      </div>
+
+      <label>¿Qué te gustó o qué mejorarías?</label>
+      <textarea id="comentarios" placeholder="Escribe aquí tus comentarios..."></textarea>
+
+      <div>
+        <label><input type="checkbox" id="autorizo"> Autorizo el uso de este feedback para mejorar la experiencia</label>
+      </div>
+
+      <div class="button">
+        <button type="button" class="enviar" onclick="enviarWhatsApp()">Enviar feedback</button>
+        <button type="reset" class="limpiar">Limpiar</button>
+      </div>
+    </form>
   </div>
 
-  <!-- Scripts -->
   <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
+    function enviarWhatsApp() {
+      const nombre = document.getElementById('nombre').value || 'No especificado';
+      const correo = document.getElementById('correo').value || 'No especificado';
+      const estrellas = document.querySelector('input[name="estrellas"]:checked')?.value || 'No calificado';
+      const sentimiento = document.querySelector('input[name="sentimiento"]:checked')?.value || 'No respondido';
+      const comentarios = document.getElementById('comentarios').value || 'Sin comentarios';
+      const autorizo = document.getElementById('autorizo').checked ? 'Sí' : 'No';
 
-    const stars = document.querySelectorAll('#rating .star');
-    const ratingLabel = document.getElementById('ratingLabel');
-    const ratingInput = document.getElementById('ratingValueInput');
-    let ratingValue = 0;
-    const ratingTexts = ['Muy malo', 'Malo', 'Regular', 'Bueno', 'Excelente'];
+      const mensaje = `📋 *Nuevo Feedback de Usuario*:
 
-    stars.forEach(star => {
-      star.addEventListener('click', () => {
-        ratingValue = parseInt(star.dataset.value, 10);
-        updateStars();
-      });
-      star.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          ratingValue = parseInt(star.dataset.value, 10);
-          updateStars();
-          e.preventDefault();
-        }
-      });
-    });
+👤 Nombre: ${nombre}
+📧 Correo: ${correo}
+⭐ Experiencia general: ${estrellas}
+😃 Sentimiento al navegar: ${sentimiento}
+📝 Comentarios: ${comentarios}
+✅ Autorización para uso del feedback: ${autorizo}`;
 
-    function updateStars() {
-      stars.forEach(s => {
-        const v = parseInt(s.dataset.value, 10);
-        if (v <= ratingValue) {
-          s.classList.add('active');
-          s.textContent = '★';
-          s.setAttribute('aria-checked','true');
-        } else {
-          s.classList.remove('active');
-          s.textContent = '☆';
-          s.setAttribute('aria-checked','false');
-        }
-      });
-      ratingLabel.textContent = ratingValue ? `${ratingValue} — ${ratingTexts[ratingValue - 1]}` : '—';
-      ratingInput.value = ratingValue;
+      // Número de teléfono destino (con código de país, sin espacios)
+      const numero = "573168397722"; // Colombia (+57)
+
+      // Redirigir a WhatsApp con mensaje
+      const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
+      window.open(url, '_blank');
     }
-
-    // Mood selection
-    const moodBtns = document.querySelectorAll('#mood button');
-    const moodValueInput = document.getElementById('moodValue');
-    let moodSelected = '';
-    moodBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        moodSelected = btn.dataset.value;
-        moodValueInput.value = moodSelected;
-        moodBtns.forEach(b => b.classList.remove('ring-2','ring-yellow-300'));
-        btn.classList.add('ring-2','ring-yellow-300');
-      });
-    });
-
-    // Modal
-    const modal = document.getElementById('modal');
-    document.getElementById('closeModal').addEventListener('click', () => {
-      modal.classList.add('hidden');
-    });
-
-    // Clear button
-    document.getElementById('clearBtn').addEventListener('click', () => {
-      document.getElementById('feedbackForm').reset();
-      ratingValue = 0; updateStars();
-      moodSelected = ''; moodValueInput.value = '';
-      moodBtns.forEach(b => b.classList.remove('ring-2','ring-yellow-300'));
-      document.getElementById('formMsg').textContent = 'Formulario limpiado.';
-    });
-
-    // Intercept form submit to show modal
-    const form = document.getElementById('feedbackForm');
-    form.addEventListener('submit', function (e) {
-      const consent = document.getElementById('consent').checked;
-      if (!consent) {
-        e.preventDefault();
-        document.getElementById('formMsg').textContent = 'Por favor autoriza el uso del feedback marcando la casilla de consentimiento.';
-        return;
-      }
-
-      // Let the form submit normally, but also show modal after a short delay
-      setTimeout(() => {
-        modal.classList.remove('hidden');
-      }, 1000);
-    });
   </script>
 </body>
 </html>
