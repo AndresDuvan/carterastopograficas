@@ -7,8 +7,6 @@
    
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-
-    
     /* estilos adicionales para selección de letras */
     .cell {
       user-select: none;
@@ -27,8 +25,7 @@
     .cross-black { background:rgba(0,0,0,0.7); }
   </style>
 </head>
-<body 
- class="bg-green-900 text-gray-100">
+<body class="bg-green-900 text-gray-100">
   <div class="min-h-screen">
     <!-- NAV -->
     <header class="bg-green-800 shadow-lg">
@@ -100,8 +97,8 @@
                 <div>
                   <h4 class="font-semibold">Horizontal</h4>
                   <ol class="pl-4 list-decimal text-gray-200">
-                    <li><b>1.</b> Instrumento para medir ángulos (7 letras)</li>
-                    <li><b>3.</b> Red de elementos subterráneos para agua (7 letras)</li>
+                    <li><b>1.</b> Instrumento para medir ángulos (9 letras)</li>
+                    <li><b>3.</b> Red de elementos subterráneos para agua (9 letras)</li>
                   </ol>
                 </div>
                 <div>
@@ -131,14 +128,12 @@
     // palabras (ES) relacionadas con topografía
     const WORDS = ['ESTACION', 'CURVA', 'ALCANTARILLADO', 'DRONE', 'GPS', 'COORDENADA', 'NIVEL', 'PROFUNDIDAD'];
 
-    // Vamos a usar un grid 12x12
+    // grid 12x12
     const ROWS = 12, COLS = 12;
     let grid = Array.from({length: ROWS}, () => Array.from({length: COLS}, () => ''));
 
-    // posiciones de palabras almacenadas {word, coords: [{r,c}, ...]}
     const placed = [];
 
-    // función para poner palabra horizontal o vertical (intentar)
     function placeWord(word) {
       const maxAttempts = 200;
       const len = word.length;
@@ -148,14 +143,12 @@
         let c = Math.floor(Math.random()*COLS);
         if (dir === 'H') {
           if (c + len > COLS) continue;
-          // check conflicts
           let ok = true;
           for (let i=0;i<len;i++) {
             const ch = grid[r][c+i];
             if (ch !== '' && ch !== word[i]) { ok = false; break; }
           }
           if (!ok) continue;
-          // place
           const coords = [];
           for (let i=0;i<len;i++) { grid[r][c+i] = word[i]; coords.push({r,c:c+i}); }
           return coords;
@@ -168,301 +161,292 @@
           }
           if (!ok) continue;
           const coords = [];
-          for (let i=0;i<len;i++) { grid[r+i][c] = word[i]; coords.push({r:i+r,c}); }
+          for (let i=0;i<len;i++) { grid[r+i][c] = word[i]; coords.push({r:r+i,c}); }
           return coords;
         }
       }
       return null;
     }
 
-    // place all words (uppercase)
-    const wordsToPlace = WORDS.map(w=>w.toUpperCase());
-    for (const w of wordsToPlace) {
-      const coords = placeWord(w);
-      if (coords) placed.push({word:w, coords});
-      else console.warn('No se pudo colocar:', w);
-    }
-
-    // fill remaining with random letters
-    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    for (let r=0;r<ROWS;r++){
-      for (let c=0;c<COLS;c++){
-        if (!grid[r][c] || grid[r][c]==='') grid[r][c] = letters[Math.floor(Math.random()*letters.length)];
-      }
-    }
-
-    // render grid HTML
-    const gridEl = document.getElementById('grid');
-    const wordsListEl = document.getElementById('wordsList');
-    let selection = []; // list of {r,c,el}
-    let foundWords = new Set();
-
-    function renderGrid(){
-      gridEl.innerHTML = '';
-      gridEl.style.gridTemplateColumns = `repeat(${COLS}, 36px)`;
-      for (let r=0;r<ROWS;r++){
-        for (let c=0;c<COLS;c++){
-          const span = document.createElement('div');
-          span.className = 'cell cross-cell flex items-center justify-center bg-white/6 text-lg font-bold rounded-md';
-          span.dataset.r = r; span.dataset.c = c;
-          span.textContent = grid[r][c];
-          span.addEventListener('click', onCellClick);
-          gridEl.appendChild(span);
+    function fillGridRandom() {
+      const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      for(let r=0;r<ROWS;r++) {
+        for(let c=0;c<COLS;c++) {
+          if(grid[r][c]==='') {
+            grid[r][c] = letters.charAt(Math.floor(Math.random()*letters.length));
+          }
         }
       }
     }
 
-    function renderWordsList(){
-      wordsListEl.innerHTML = '';
-      for (const p of placed) {
-        const li = document.createElement('li');
-        li.textContent = p.word;
-        li.id = 'word-' + p.word;
-        li.className = 'text-gray-200';
-        wordsListEl.appendChild(li);
+    function createGrid() {
+      const gridEl = document.getElementById('grid');
+      gridEl.style.gridTemplateColumns = `repeat(${COLS},36px)`;
+      gridEl.innerHTML = '';
+
+      for(let r=0;r<ROWS;r++) {
+        for(let c=0;c<COLS;c++) {
+          const cell = document.createElement('div');
+          cell.className = 'cell bg-green-800 text-yellow-300 font-bold text-lg flex items-center justify-center select-none';
+          cell.dataset.r = r;
+          cell.dataset.c = c;
+          cell.textContent = grid[r][c];
+          cell.addEventListener('click', onCellClick);
+          gridEl.appendChild(cell);
+        }
       }
     }
 
-    function onCellClick(e){
-      const el = e.currentTarget;
-      const r = +el.dataset.r; const c = +el.dataset.c;
-      // toggle selection of this cell
-      const idx = selection.findIndex(s => s.r===r && s.c===c);
-      if (idx >= 0) {
-        // unselect from idx to end
-        for (let i = selection.length-1; i>=idx; i--) selection[i].el.classList.remove('selected'), selection.pop();
-      } else {
-        // add
-        selection.push({r,c,el});
-        el.classList.add('selected');
+    // colocar palabras en la sopa
+    WORDS.forEach(w => {
+      const coords = placeWord(w);
+      if(coords) placed.push({word:w, coords});
+    });
+    fillGridRandom();
+    createGrid();
+
+    // lista de palabras
+    const wordsListEl = document.getElementById('wordsList');
+    WORDS.forEach(w => {
+      const li = document.createElement('li');
+      li.textContent = w;
+      li.className = 'line-through decoration-transparent';
+      wordsListEl.appendChild(li);
+    });
+
+    // seleccion letras
+    let selectedCells = [];
+    let selecting = false;
+
+    function onCellClick(e) {
+      const cell = e.currentTarget;
+      if(selectedCells.length > 0 && selectedCells.some(c=>c===cell)) {
+        // si clickeo en último seleccionado, deseleccionar
+        if(cell === selectedCells[selectedCells.length-1]) {
+          cell.classList.remove('selected');
+          selectedCells.pop();
+        }
+        return;
       }
+      cell.classList.add('selected');
+      selectedCells.push(cell);
     }
 
-    // utility to get selected string
-    function getSelectedString() {
-      return selection.map(s => s.el.textContent).join('');
-    }
-    function getSelectedCoords() {
-      return selection.map(s => ({r:s.r,c:s.c}));
+    function resetSelection() {
+      selectedCells.forEach(c => c.classList.remove('selected'));
+      selectedCells = [];
     }
 
-    // check button logic
     document.getElementById('checkBtn').addEventListener('click', () => {
-      const s = getSelectedString();
-      const coords = getSelectedCoords();
-      if (!s) { setMsg('Selecciona letras primero.'); return; }
-      // check against placed words (normal or reversed)
-      let matched = null;
-      for (const p of placed) {
-        const w = p.word;
-        // build string from p.coords
-        const pstr = p.coords.map(pt => grid[pt.r][pt.c]).join('');
-        if (s === pstr) { matched = p; break; }
-        const rev = pstr.split('').reverse().join('');
-        if (s === rev) { matched = p; break; }
+      if(selectedCells.length === 0) return;
+      const word = selectedCells.map(c => c.textContent).join('');
+      let foundIndex = -1;
+      for(let i=0;i<placed.length;i++) {
+        if(placed[i].word === word) {
+          // comparar con coords seleccionadas
+          const selCoords = selectedCells.map(c => ({r: parseInt(c.dataset.r), c:parseInt(c.dataset.c)}));
+          let match = true;
+          const pCoords = placed[i].coords;
+          if(selCoords.length !== pCoords.length) match = false;
+          else {
+            for(let j=0;j<selCoords.length;j++) {
+              if(selCoords[j].r !== pCoords[j].r || selCoords[j].c !== pCoords[j].c) {
+                match = false; break;
+              }
+            }
+          }
+          if(match) {
+            foundIndex = i; break;
+          }
+        }
       }
-      if (matched) {
-        // mark found: mark letters as found, mark word list item
-        for (const sel of selection) sel.el.classList.remove('selected'), sel.el.classList.add('found');
-        document.getElementById('word-' + matched.word).style.textDecoration = 'line-through';
-        foundWords.add(matched.word);
-        selection = [];
-        setMsg(`¡Encontraste "${matched.word}"!`);
+      const msg = document.getElementById('msg');
+      if(foundIndex >=0) {
+        msg.textContent = `¡Correcto! Encontraste "${placed[foundIndex].word}"`;
+        msg.className = "text-green-400 font-semibold";
+        // marcar casillas en verde y palabra tachada
+        placed[foundIndex].coords.forEach(({r,c}) => {
+          const cell = document.querySelector(`#grid > div[data-r="${r}"][data-c="${c}"]`);
+          cell.classList.add('found');
+        });
+        wordsListEl.children[foundIndex].classList.add('line-through');
+        resetSelection();
       } else {
-        setMsg('No coincide con ninguna palabra. Intenta otra vez.');
-        // flash selection then clear
-        for (const sel of selection) sel.el.classList.remove('selected');
-        selection = [];
+        msg.textContent = 'Palabra incorrecta o no encontrada.';
+        msg.className = "text-red-500 font-semibold";
       }
-      // win condition
-      if (foundWords.size === placed.length) setMsg('¡Felicidades! Encontraste todas las palabras 🎉');
     });
 
     document.getElementById('resetBtn').addEventListener('click', () => {
-      // clear found and selections and regenerate grid but keep words placed
-      foundWords.clear();
-      selection = [];
-      // remove classes
-      document.querySelectorAll('#grid .cell').forEach(el => el.className = 'cell cross-cell flex items-center justify-center bg-white/6 text-lg font-bold rounded-md');
-      // reset word list strike
-      placed.forEach(p => { const li = document.getElementById('word-'+p.word); if (li) li.style.textDecoration='none'; });
-      setMsg('Juego reiniciado (mantiene la misma disposición).');
+      resetSelection();
+      document.getElementById('msg').textContent = '';
     });
 
     document.getElementById('revealBtn').addEventListener('click', () => {
-      // reveal all words visually
-      placed.forEach(p => {
-        p.coords.forEach(pt => {
-          const cell = document.querySelector(`#grid .cell[data-r="${pt.r}"][data-c="${pt.c}"]`);
-          if (cell) cell.classList.add('revealed');
+      placed.forEach(({coords}) => {
+        coords.forEach(({r,c}) => {
+          const cell = document.querySelector(`#grid > div[data-r="${r}"][data-c="${c}"]`);
+          cell.classList.add('found');
         });
-        const li = document.getElementById('word-'+p.word);
-        if (li) li.style.textDecoration = 'line-through';
-        foundWords.add(p.word);
       });
-      setMsg('Solución mostrada.');
+      for(let i=0;i<wordsListEl.children.length;i++) {
+        wordsListEl.children[i].classList.add('line-through');
+      }
+      document.getElementById('msg').textContent = 'Solución mostrada.';
+      document.getElementById('msg').className = "text-blue-400 font-semibold";
+      resetSelection();
     });
-
-    function setMsg(t) { document.getElementById('msg').textContent = t; }
-
-    // initial render
-    renderGrid();
-    renderWordsList();
 
     /* ---------- CRUCIGRAMA ---------- */
-    // We'll build a small 9x9 grid with 4 clues (2 horizontal, 2 vertical).
-    // Layout array: null = black cell, '' = empty cell
-    // We'll encode positions with a simple pattern.
-    const CROSS_ROWS = 9, CROSS_COLS = 9;
-    const crossLayout = [
-      // 9 columns each row
-      ['','','','A','','','','',''],
-      ['','B','','A','','','C','',''],
-      ['','','','','','C','','',''],
-      ['','','','','','C','','',''],
-      ['','','','','','','','',''],
-      ['','','D','','','','','',''],
-      ['','','D','','','','','',''],
-      ['','','D','','','','','',''],
-      ['','','','','','','','','']
-    ];
-    // But easier: we'll create an explicit mapping of cells that belong to words:
-    // Across 1: row 1 col 1-7 (INSTRUM -> ESTACION is 8? We'll use ESTACION(8))
-    // To follow clues we set:
-    // Horizontal 1 (1 H): starts r1c1 length 7 -> "TEODOL0"? better: "TEODOL0" wrong.
-    // For simplicity and to match clues earlier:
-    // Horizontal clues given in UI:
-    // 1. Instrumento para medir ángulos (7 letras) -> "TEODOL0"? Correct word is "TEODOLITO" (9). But clue said 7 — mismatch.
-    // To avoid mismatch, I'll select words that fit:
-    // Let's use:
-    // H1 (1): "ESTACA" (6) — not instrument. This is messy.
-    // To keep consistent with the hints provided earlier in the UI, we'll actually use these answers:
-    // Horizontal 1 (1): "TEODOLITO" (9) -> change clue to (9)
-    // Horizontal 3 (3): "ACUEDUCTO" (9) -> corresponds to redes de agua (9)
-    // Vertical 2 (2): "CURVA" (5)
-    // Vertical 4 (4): "GPS" (3)
-    //
-    // We'll place them into a 9x9 shown grid with positions chosen below.
+    /*
+    Nuevo crucigrama:
+    9x9
+    Palabras:
+    1 HORIZONTAL (9) - TEODOLITO
+    2 VERTICAL (5) - CURVA
+    3 HORIZONTAL (9) - ALCANTARIL
+    4 VERTICAL (3) - GPS
+    */
 
-    // Define words and positions explicitly:
-    // Each item: {word, coords:[{r,c}, ...]}
     const crossWords = [
-      { id: 'H1', word: 'TEODOLITO', coords: Array.from({length:9}, (_,i)=>({r:0,c:i})) }, // row 0 cols 0..8
-      { id: 'V2', word: 'CURVA', coords: Array.from({length:5}, (_,i)=>({r:i+1,c:2})) },    // col 2 rows 1..5
-      { id: 'H3', word: 'ACUEDUCTO', coords: Array.from({length:9}, (_,i)=>({r:4,c:i})) }, // row 4 cols 0..8
-      { id: 'V4', word: 'GPS', coords: Array.from({length:3}, (_,i)=>({r:i+2,c:6})) }       // col 6 rows 2..4
+      {num:1, direction:'H', row:0, col:0, word:'TEODOLITO'},
+      {num:2, direction:'V', row:0, col:4, word:'CURVA'},
+      {num:3, direction:'H', row:5, col:0, word:'ALCANTARIL'}, // cambié ALCANTARILLADO por ALCANTARIL para 9 letras
+      {num:4, direction:'V', row:0, col:8, word:'GPS'},
     ];
 
-    // Build a 9x9 cell array with null for black cells
-    const crossGridArr = Array.from({length:9}, () => Array.from({length:9}, () => null));
-    // Mark white cells that are used in any word
-    crossWords.forEach(w => {
-      for (const p of w.coords) crossGridArr[p.r][p.c] = '';
-    });
+    const CROSS_ROWS = 9;
+    const CROSS_COLS = 9;
 
-    // Render cross grid
-    const crossGridEl = document.getElementById('crossGrid');
-    function renderCrossGrid() {
-      crossGridEl.innerHTML = '';
+    function createCrosswordGrid() {
+      const crossGridEl = document.getElementById('crossGrid');
       crossGridEl.style.gridTemplateColumns = `repeat(${CROSS_COLS}, 40px)`;
-      for (let r=0;r<CROSS_ROWS;r++){
-        for (let c=0;c<CROSS_COLS;c++){
-          const div = document.createElement('div');
-          if (crossGridArr[r][c] === null) {
-            div.className = 'cross-cell cross-black';
-          } else {
-            div.className = 'cross-cell flex items-center justify-center bg-white/6';
-            const input = document.createElement('input');
-            input.maxLength = 1;
-            input.className = 'input-letter';
-            input.dataset.r = r; input.dataset.c = c;
-            input.addEventListener('input', (e)=> e.target.value = e.target.value.toUpperCase().replace(/[^A-ZÑ]/g,''));
-            div.appendChild(input);
+      crossGridEl.innerHTML = '';
+
+      for(let r=0;r<CROSS_ROWS;r++) {
+        for(let c=0;c<CROSS_COLS;c++) {
+          const cell = document.createElement('div');
+          cell.classList.add('cross-cell');
+          // comprobar si celda está negra o blanca
+          let isBlack = true;
+          for(const w of crossWords) {
+            if(w.direction === 'H') {
+              if(r === w.row && c >= w.col && c < w.col + w.word.length) {
+                isBlack = false;
+                break;
+              }
+            } else {
+              if(c === w.col && r >= w.row && r < w.row + w.word.length) {
+                isBlack = false;
+                break;
+              }
+            }
           }
-          crossGridEl.appendChild(div);
+          if(isBlack) cell.classList.add('cross-black');
+
+          if(!isBlack) {
+            // input para letra
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.maxLength = 1;
+            input.className = 'input-letter bg-transparent text-gray-900 dark:text-gray-100';
+            input.autocomplete = 'off';
+            input.dataset.r = r;
+            input.dataset.c = c;
+            input.style.textTransform = 'uppercase';
+            cell.appendChild(input);
+
+            // número pista (solo si está al inicio de palabra)
+            for(const w of crossWords) {
+              if(w.direction === 'H' && r === w.row && c === w.col) {
+                const numSpan = document.createElement('span');
+                numSpan.textContent = w.num;
+                numSpan.style.position = 'absolute';
+                numSpan.style.fontSize = '0.6rem';
+                numSpan.style.color = '#b45309';
+                numSpan.style.top = '2px';
+                numSpan.style.left = '2px';
+                numSpan.style.fontWeight = '700';
+                cell.style.position = 'relative';
+                cell.appendChild(numSpan);
+              }
+              if(w.direction === 'V' && c === w.col && r === w.row) {
+                const numSpan = document.createElement('span');
+                numSpan.textContent = w.num;
+                numSpan.style.position = 'absolute';
+                numSpan.style.fontSize = '0.6rem';
+                numSpan.style.color = '#b45309';
+                numSpan.style.top = '2px';
+                numSpan.style.left = '2px';
+                numSpan.style.fontWeight = '700';
+                cell.style.position = 'relative';
+                cell.appendChild(numSpan);
+              }
+            }
+          }
+          crossGridEl.appendChild(cell);
         }
       }
     }
+    createCrosswordGrid();
 
-    renderCrossGrid();
-
-    // Utility: read grid letters into map by position
-    function readCrossInput() {
-      const map = {};
-      document.querySelectorAll('#crossGrid input').forEach(inp => {
-        map[ `${inp.dataset.r},${inp.dataset.c}` ] = (inp.value || '').toUpperCase();
-      });
-      return map;
-    }
-
-    // Check crossword
+    // botones crucigrama
     document.getElementById('crossCheck').addEventListener('click', () => {
-      const map = readCrossInput();
+      const crossMsg = document.getElementById('crossMsg');
       let allCorrect = true;
-      let incorrectWords = [];
-      for (const w of crossWords) {
-        const letters = w.coords.map(p => map[`${p.r},${p.c}`] || '');
-        const answer = w.word.toUpperCase().split('');
-        const ok = answer.every((ch,idx) => ch === letters[idx]);
-        if (!ok) {
-          allCorrect = false;
-          incorrectWords.push(w.id);
+      for(const w of crossWords) {
+        for(let i=0;i<w.word.length;i++) {
+          let r = w.row;
+          let c = w.col;
+          if(w.direction === 'H') c += i;
+          else r += i;
+          const input = document.querySelector(`#crossGrid input[data-r="${r}"][data-c="${c}"]`);
+          if(!input) continue;
+          if(input.value.toUpperCase() !== w.word[i]) {
+            allCorrect = false;
+            input.classList.add('border-red-500');
+          } else {
+            input.classList.remove('border-red-500');
+          }
         }
       }
-      if (allCorrect) {
-        document.getElementById('crossMsg').textContent = '¡Crucigrama correcto! 🎉';
+      if(allCorrect) {
+        crossMsg.textContent = "¡Correcto! Has completado el crucigrama.";
+        crossMsg.className = "text-green-400 font-semibold";
       } else {
-        document.getElementById('crossMsg').textContent = 'Aún hay errores. Revisa las palabras: ' + incorrectWords.join(', ');
+        crossMsg.textContent = "Hay errores en las respuestas.";
+        crossMsg.className = "text-red-500 font-semibold";
       }
     });
 
-    // Reveal crossword solution
     document.getElementById('crossReveal').addEventListener('click', () => {
-      // fill inputs
-      document.querySelectorAll('#crossGrid input').forEach(inp => inp.value = '');
-      for (const w of crossWords) {
-        const letters = w.word.toUpperCase().split('');
-        for (let i=0;i<w.coords.length;i++){
-          const p = w.coords[i];
-          const selector = `#crossGrid input[data-r="${p.r}"][data-c="${p.c}"]`;
-          const inp = document.querySelector(selector);
-          if (inp) inp.value = letters[i];
+      for(const w of crossWords) {
+        for(let i=0;i<w.word.length;i++) {
+          let r = w.row;
+          let c = w.col;
+          if(w.direction === 'H') c += i;
+          else r += i;
+          const input = document.querySelector(`#crossGrid input[data-r="${r}"][data-c="${c}"]`);
+          if(!input) continue;
+          input.value = w.word[i];
+          input.classList.remove('border-red-500');
+          input.classList.add('bg-blue-400', 'text-white');
         }
       }
-      document.getElementById('crossMsg').textContent = 'Solución mostrada.';
+      const crossMsg = document.getElementById('crossMsg');
+      crossMsg.textContent = "Solución mostrada.";
+      crossMsg.className = "text-blue-400 font-semibold";
     });
 
     document.getElementById('crossReset').addEventListener('click', () => {
-      document.querySelectorAll('#crossGrid input').forEach(inp => inp.value = '');
-      document.getElementById('crossMsg').textContent = 'Crucigrama reiniciado.';
+      const inputs = document.querySelectorAll('#crossGrid input');
+      inputs.forEach(input => {
+        input.value = '';
+        input.classList.remove('border-red-500','bg-blue-400','text-white');
+      });
+      const crossMsg = document.getElementById('crossMsg');
+      crossMsg.textContent = '';
     });
-
-    // OPTIONAL: keyboard navigation improvement (arrow keys)
-    document.addEventListener('keydown', (e) => {
-      const active = document.activeElement;
-      if (active && active.tagName === 'INPUT' && active.classList.contains('input-letter')) {
-        const r = parseInt(active.dataset.r), c = parseInt(active.dataset.c);
-        if (e.key === 'ArrowRight') {
-          focusCell(r, c+1);
-          e.preventDefault();
-        } else if (e.key === 'ArrowLeft') {
-          focusCell(r, c-1);
-          e.preventDefault();
-        } else if (e.key === 'ArrowDown') {
-          focusCell(r+1, c);
-          e.preventDefault();
-        } else if (e.key === 'ArrowUp') {
-          focusCell(r-1, c);
-          e.preventDefault();
-        }
-      }
-    });
-
-    function focusCell(r,c){
-      const sel = document.querySelector(`#crossGrid input[data-r="${r}"][data-c="${c}"]`);
-      if (sel) sel.focus();
-    }
-
   </script>
 </body>
 </html>
