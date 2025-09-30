@@ -36,11 +36,10 @@
         </div>
         <nav class="space-x-4">
           <a href="#sopa" class="text-yellow-300 hover:underline">Sopa de letras</a>
-          <a href="#crucigrama" class="text-yellow-300 hover:underline">Crucigrama</a>
           <a href="index.html" class="text-yellow-300 hover:underline">Inicio</a>
         </nav>
       </div>
-      <p class="mt-3 text-gray-300 max-w-3xl">Diviértete y practica vocabulario topográfico. Encuentra las palabras en la sopa de letras o completa el crucigrama.</p>
+      <p class="mt-3 text-gray-300 max-w-3xl">Diviértete y practica vocabulario topográfico. Encuentra las palabras en la sopa de letras.</p>
     </header>
 
     <main class="max-w-6xl mx-auto px-4 pb-12 space-y-12">
@@ -72,47 +71,6 @@
         </div>
       </section>
 
-      <!-- CRUCIGRAMA -->
-      <section id="crucigrama" class="bg-white/5 rounded-2xl p-6">
-        <h2 class="text-2xl font-bold mb-4">Crucigrama</h2>
-        <p class="text-sm text-gray-300 mb-4">Completa el crucigrama con las palabras relacionadas a topografía. Presiona <b>Comprobar</b> o <b>Mostrar solución</b>.</p>
-
-        <div class="md:flex md:gap-8">
-          <!-- grid crucigrama -->
-          <div class="bg-white/3 rounded-lg p-4">
-            <div id="crossGrid" class="grid gap-0" style="grid-template-columns: repeat(9, 40px);"></div>
-            <div class="mt-4 flex gap-3">
-              <button id="crossCheck" class="bg-yellow-400 text-gray-900 px-4 py-2 rounded-lg font-semibold hover:bg-yellow-300">Comprobar</button>
-              <button id="crossReveal" class="bg-blue-600 px-4 py-2 rounded-lg hover:bg-blue-500">Mostrar solución</button>
-              <button id="crossReset" class="bg-white/10 px-4 py-2 rounded-lg hover:bg-white/20">Reiniciar</button>
-            </div>
-            <p id="crossMsg" class="mt-3 text-sm"></p>
-          </div>
-
-          <!-- pistas -->
-          <aside class="mt-6 md:mt-0 md:flex-1">
-            <div class="bg-white/3 rounded-lg p-4">
-              <h3 class="font-semibold mb-2">Pistas</h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <h4 class="font-semibold">Horizontal</h4>
-                  <ol class="pl-4 list-decimal text-gray-200">
-                    <li><b>1.</b> Instrumento para medir ángulos (9 letras)</li>
-                    <li><b>3.</b> Red de elementos subterráneos para agua (9 letras)</li>
-                  </ol>
-                </div>
-                <div>
-                  <h4 class="font-semibold">Vertical</h4>
-                  <ol class="pl-4 list-decimal text-gray-200">
-                    <li><b>2.</b> Línea que une puntos de igual altura (5 letras)</li>
-                    <li><b>4.</b> Dispositivo que proporciona posición (3 letras)</li>
-                  </ol>
-                </div>
-              </div>
-            </div>
-          </aside>
-        </div>
-      </section>
     </main>
 
     <footer class="max-w-6xl mx-auto px-4 pb-10 text-sm text-gray-400">
@@ -216,7 +174,6 @@
 
     // seleccion letras
     let selectedCells = [];
-    let selecting = false;
 
     function onCellClick(e) {
       const cell = e.currentTarget;
@@ -295,157 +252,6 @@
       document.getElementById('msg').textContent = 'Solución mostrada.';
       document.getElementById('msg').className = "text-blue-400 font-semibold";
       resetSelection();
-    });
-
-    /* ---------- CRUCIGRAMA ---------- */
-    /*
-    Nuevo crucigrama:
-    9x9
-    Palabras:
-    1 HORIZONTAL (9) - TEODOLITO
-    2 VERTICAL (5) - CURVA
-    3 HORIZONTAL (9) - ALCANTARIL
-    4 VERTICAL (3) - GPS
-    */
-
-    const crossWords = [
-      {num:1, direction:'H', row:0, col:0, word:'TEODOLITO'},
-      {num:2, direction:'V', row:0, col:4, word:'CURVA'},
-      {num:3, direction:'H', row:5, col:0, word:'ALCANTARIL'}, // cambié ALCANTARILLADO por ALCANTARIL para 9 letras
-      {num:4, direction:'V', row:0, col:8, word:'GPS'},
-    ];
-
-    const CROSS_ROWS = 9;
-    const CROSS_COLS = 9;
-
-    function createCrosswordGrid() {
-      const crossGridEl = document.getElementById('crossGrid');
-      crossGridEl.style.gridTemplateColumns = `repeat(${CROSS_COLS}, 40px)`;
-      crossGridEl.innerHTML = '';
-
-      for(let r=0;r<CROSS_ROWS;r++) {
-        for(let c=0;c<CROSS_COLS;c++) {
-          const cell = document.createElement('div');
-          cell.classList.add('cross-cell');
-          // comprobar si celda está negra o blanca
-          let isBlack = true;
-          for(const w of crossWords) {
-            if(w.direction === 'H') {
-              if(r === w.row && c >= w.col && c < w.col + w.word.length) {
-                isBlack = false;
-                break;
-              }
-            } else {
-              if(c === w.col && r >= w.row && r < w.row + w.word.length) {
-                isBlack = false;
-                break;
-              }
-            }
-          }
-          if(isBlack) cell.classList.add('cross-black');
-
-          if(!isBlack) {
-            // input para letra
-            const input = document.createElement('input');
-            input.type = 'text';
-            input.maxLength = 1;
-            input.className = 'input-letter bg-transparent text-gray-900 dark:text-gray-100';
-            input.autocomplete = 'off';
-            input.dataset.r = r;
-            input.dataset.c = c;
-            input.style.textTransform = 'uppercase';
-            cell.appendChild(input);
-
-            // número pista (solo si está al inicio de palabra)
-            for(const w of crossWords) {
-              if(w.direction === 'H' && r === w.row && c === w.col) {
-                const numSpan = document.createElement('span');
-                numSpan.textContent = w.num;
-                numSpan.style.position = 'absolute';
-                numSpan.style.fontSize = '0.6rem';
-                numSpan.style.color = '#b45309';
-                numSpan.style.top = '2px';
-                numSpan.style.left = '2px';
-                numSpan.style.fontWeight = '700';
-                cell.style.position = 'relative';
-                cell.appendChild(numSpan);
-              }
-              if(w.direction === 'V' && c === w.col && r === w.row) {
-                const numSpan = document.createElement('span');
-                numSpan.textContent = w.num;
-                numSpan.style.position = 'absolute';
-                numSpan.style.fontSize = '0.6rem';
-                numSpan.style.color = '#b45309';
-                numSpan.style.top = '2px';
-                numSpan.style.left = '2px';
-                numSpan.style.fontWeight = '700';
-                cell.style.position = 'relative';
-                cell.appendChild(numSpan);
-              }
-            }
-          }
-          crossGridEl.appendChild(cell);
-        }
-      }
-    }
-    createCrosswordGrid();
-
-    // botones crucigrama
-    document.getElementById('crossCheck').addEventListener('click', () => {
-      const crossMsg = document.getElementById('crossMsg');
-      let allCorrect = true;
-      for(const w of crossWords) {
-        for(let i=0;i<w.word.length;i++) {
-          let r = w.row;
-          let c = w.col;
-          if(w.direction === 'H') c += i;
-          else r += i;
-          const input = document.querySelector(`#crossGrid input[data-r="${r}"][data-c="${c}"]`);
-          if(!input) continue;
-          if(input.value.toUpperCase() !== w.word[i]) {
-            allCorrect = false;
-            input.classList.add('border-red-500');
-          } else {
-            input.classList.remove('border-red-500');
-          }
-        }
-      }
-      if(allCorrect) {
-        crossMsg.textContent = "¡Correcto! Has completado el crucigrama.";
-        crossMsg.className = "text-green-400 font-semibold";
-      } else {
-        crossMsg.textContent = "Hay errores en las respuestas.";
-        crossMsg.className = "text-red-500 font-semibold";
-      }
-    });
-
-    document.getElementById('crossReveal').addEventListener('click', () => {
-      for(const w of crossWords) {
-        for(let i=0;i<w.word.length;i++) {
-          let r = w.row;
-          let c = w.col;
-          if(w.direction === 'H') c += i;
-          else r += i;
-          const input = document.querySelector(`#crossGrid input[data-r="${r}"][data-c="${c}"]`);
-          if(!input) continue;
-          input.value = w.word[i];
-          input.classList.remove('border-red-500');
-          input.classList.add('bg-blue-400', 'text-white');
-        }
-      }
-      const crossMsg = document.getElementById('crossMsg');
-      crossMsg.textContent = "Solución mostrada.";
-      crossMsg.className = "text-blue-400 font-semibold";
-    });
-
-    document.getElementById('crossReset').addEventListener('click', () => {
-      const inputs = document.querySelectorAll('#crossGrid input');
-      inputs.forEach(input => {
-        input.value = '';
-        input.classList.remove('border-red-500','bg-blue-400','text-white');
-      });
-      const crossMsg = document.getElementById('crossMsg');
-      crossMsg.textContent = '';
     });
   </script>
 </body>
